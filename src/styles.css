@@ -1,0 +1,29 @@
+:root { font-family: Inter, system-ui, sans-serif; color: #0f172a; background: #f8fafc; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+.layout-root { min-height: 100vh; }
+.topbar { display: grid; grid-template-columns: auto auto 1fr auto auto; gap: 12px; align-items: center; padding: 12px 16px; background: #111827; color: #fff; }
+.logo { font-weight: 700; }
+.layout-body { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
+.sidebar { background: #1f2937; padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+.nav-item { color: #cbd5e1; text-decoration: none; padding: 10px; border-radius: 8px; }
+.nav-item.active, .nav-item:hover { background: #334155; color: #fff; }
+.page-content { padding: 20px; }
+.search { width: 100%; }
+.btn { border: 1px solid #cbd5e1; background: #fff; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+.btn.primary { background: #2563eb; color: #fff; border-color: #2563eb; }
+.btn.soft { background: #1f2937; color: #fff; border-color: #334155; }
+.input { border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; }
+.card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin: 12px 0; }
+.kpi-row { display: grid; grid-template-columns: repeat(5, minmax(120px, 1fr)); gap: 8px; margin: 12px 0; }
+.pill { background: #e2e8f0; padding: 8px 10px; border-radius: 999px; text-align: center; font-size: 14px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.space-between { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { border-bottom: 1px solid #e2e8f0; padding: 8px; text-align: left; }
+.tabs { background: #e2e8f0; padding: 10px; border-radius: 8px; }
+.kanban { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.kanban-col { background: #f1f5f9; border-radius: 10px; padding: 8px; min-height: 150px; }
+.task-card { background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; }
+.auth-wrap { max-width: 460px; margin: 8vh auto; display: grid; gap: 10px; }
