@@ -1,0 +1,120 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  projects  Project[]
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id])
+  name        String
+  description String?
+  startDate   DateTime?
+  targetEnd   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  sprints     Sprint[]
+}
+
+model Sprint {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id])
+
+  name      String
+  goal      String?
+  startDate DateTime?
+  endDate   DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tasks     Task[]
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  BLOCKED
+  DONE
+}
+
+enum Criticality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model Task {
+  id          String      @id @default(cuid())
+  sprintId    String
+  sprint      Sprint      @relation(fields: [sprintId], references: [id])
+
+  title       String
+  description String?
+  status      TaskStatus  @default(TODO)
+  points      Int?
+  criticality Criticality @default(MEDIUM)
+  assignee    String?
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  blockers    Blocker[]
+}
+
+enum BlockerCategory {
+  EXTERNAL_DEPENDENCY
+  REQUIREMENTS_BA
+  TECHNICAL_ARCH
+  ACCESS_PERMISSIONS
+  ENVIRONMENT_CICD
+  PROCESS_SCRUM
+  PERFORMANCE_QUALITY
+  OTHER
+}
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum BlockerStatus {
+  ACTIVE
+  RESOLVED
+}
+
+model Blocker {
+  id               String         @id @default(cuid())
+  taskId           String
+  task             Task           @relation(fields: [taskId], references: [id])
+
+  category         BlockerCategory
+  severity         Severity
+  description      String
+
+  status           BlockerStatus  @default(ACTIVE)
+  createdAt        DateTime       @default(now())
+  resolvedAt       DateTime?
+
+  followUpAt       DateTime?
+  escalateAfterHrs Int?
+  dependencyOwner  String?
+  estimatedDelayDays Int?
+
+  jiraIssueKey     String?
+  jiraIssueUrl     String?
+}
