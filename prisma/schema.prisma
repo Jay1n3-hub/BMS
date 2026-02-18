@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Blocker {
+  id          Int      @id @default(autoincrement())
+  text        String
+  team        String
+  sprint      String
+  urgency     String
+  category    String
+  confidence  Float
+  actionPlan  Json
+  jiraKey     String?
+  jiraUrl     String?
+  status      String   @default("OPEN")
+  followUpAt  DateTime?
+  jiraIssueId String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  comments    BlockerComment[]
+}
+
+model BlockerComment {
+  id         Int      @id @default(autoincrement())
+  blockerId  Int
+  text       String
+  createdAt  DateTime @default(now())
+  createdBy  String?
+  jiraSynced Boolean  @default(false)
+  blocker    Blocker  @relation(fields: [blockerId], references: [id], onDelete: Cascade)
+}
